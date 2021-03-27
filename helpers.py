@@ -10,8 +10,8 @@ import time
 def get_views(wiki, cat_members):
     search_params = {
         'prop': 'pageviews',
-        # 'titles': request_titles,
         'pvipdays': 60,
+        'format': 'json',
     }
 
     raw_res = dict()
@@ -47,9 +47,9 @@ def get_views(wiki, cat_members):
 def get_linkshere(wiki, cat_members):
     search_params = {
         'prop': 'linkshere',
-#       'titles': request_titles,
         'lhnamespace': 0,
         'lhlimit': 500,
+        'format': 'json',
     }
 
     raw_res = dict()
