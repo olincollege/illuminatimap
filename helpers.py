@@ -4,18 +4,6 @@ Helper functions for the Illuminati Map project.
 Authors: Jacob Smilg and Markus Leschly
 '''
 
-from itertools import zip_longest
-
-def grouper(iterable, n, fillvalue=None):
-    '''
-    Iterates over an iterable in chunks of a specified size
-
-    Modified from itertools docs https://docs.python.org/3/library/itertools.html#itertools-recipes
-    as seen here https://stackoverflow.com/a/434411
-    '''
-    args = [iter(iterable)] * n
-    return zip_longest(*args, fillvalue=fillvalue)
-
 def sort_dict(_dict, nested_sort_key=None, num_results=None):
     '''
     Sort a dictionary by its values.
@@ -45,6 +33,23 @@ def sort_dict(_dict, nested_sort_key=None, num_results=None):
         sorted_dict[w] = _dict[w]
     
     return sorted_dict
+
+def common_links(names, links_dict):
+    keep = []
+    common_links_dict = {name: [] for name in names}
+    for name in names:
+        for linker in links_dict[name]:
+            if linker in names:
+                keep.append(name)
+                common_links_dict[name].append(linker)
+    
+    delete = [name for name in common_links_dict.keys() if name not in keep]
+
+    if len(delete):
+        for name in delete:
+            del common_links_dict[name]
+
+    return common_links_dict
 
 def trim_dict(_dict, length):
     _dict = sort_dict(_dict, nested_sort_key='views', num_results=length)
@@ -81,10 +86,9 @@ def dict_to_nodes(_dict, target_key='targets', value_key='value'):
         for target in _dict[source][target_key]:
             datalist.append((source, target, _dict[source][value_key]))
 
-
     data = dict()
     names_with_indexes = {name:index for index, name in enumerate(sources)}
-    data['nodes'] = [{'name': source, 'group': 0} for source in sources]
+    data['nodes'] = [{'name': source, 'group': _dict[source][value_key]} for source in sources]
     data['links'] = [  {'source': names_with_indexes[source],
                         'target': names_with_indexes[target], 
                         'value': value} for source, target, value in datalist]
