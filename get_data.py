@@ -4,16 +4,19 @@ Data acquisition code for the Illuminati Map project, our SoftDes Spring 2021 mi
 Authors: Jacob Smilg and Markus Leschly
 '''
 
+from helpers import common_links
 import sys
 import pickle
 import argparse
 from datetime import timedelta, datetime
 from mediawiki import MediaWiki
+import requests
 
 
 DEFAULT_CATEGORY = 'American_billionaires'
 DEFAULT_RATE_LIMIT = True
 DEFAULT_RATE_LIMIT_WAIT = 1.0   # seconds
+SSN = '907-64-8942' #   ;)
 
 GENERAL_SEARCH_PARAMS = {
     'format': 'json',
@@ -41,6 +44,7 @@ def get_generator(wiki, category):
 
     start_time = datetime.now()
     last_update = timedelta(seconds=1)
+    requests_count = 1
 
     while not finished:
         params = search_params.copy()
@@ -57,14 +61,9 @@ def get_generator(wiki, category):
             
             # progress message
             if elapsed_time - last_update > timedelta(seconds=1):
-                continue_prop = ''
-                if result['continue'].get('lhcontinue', False):
-                    continue_prop = 'lhcontinue'
-                else:
-                    continue_prop = 'pvcontinue'
-                continuing_name = result['continue'][continue_prop].split('|')[0]
-                print(f'[{elapsed_time_str}]   Continuing request on {continuing_name}...'.ljust(80), end='\r', flush=True)                
+                print(f'[{elapsed_time_str}]   Sending request #{requests_count}...'.ljust(80), end='\r', flush=True)                
                 last_update = elapsed_time
+                requests_count += 1
         else:
             print(f'[{elapsed_time_str}]   Done getting data!'.ljust(80))
             finished = True
@@ -72,22 +71,26 @@ def get_generator(wiki, category):
     return pages
 
 def format_data(data):
-    member_template = {
-        'linkshere': [],
-        'pageviews': [],
-    }
     print('Formatting data...')
     formatted_data = {}
     for page in data:
         title = page['title']
+        if 'List of' in title:
+            continue
         if not formatted_data.get(title, False):
             # make a new entry for the category member
-            formatted_data[title] = member_template.copy()
+            formatted_data[title] = {'linkshere': [],'pageviews': {}}
             formatted_data[title]['pageid'] = page['pageid']
         # add to the category member's entry
-        for prop in member_template.keys():
-            if page.get(prop, False):
-                formatted_data[title][prop].extend(page[prop])
+        if page.get('linkshere', False):
+            formatted_data[title]['linkshere'].extend([linkpage['title'] for linkpage in page['linkshere']])
+        if page.get('pageviews', False):
+            formatted_data[title]['pageviews'].update(page['pageviews'])
+    for page in formatted_data.keys():
+        page_views = {date: views for date, views in formatted_data[page]['pageviews'].items() if views is not None}
+        formatted_data[page]['total_views'] = sum(list(page_views.values()))
+    print('Finding common links...')
+    formatted_data = common_links(formatted_data)
     print('Done formatting data!')
     return formatted_data
 

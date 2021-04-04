@@ -4,6 +4,8 @@ Helper functions for the Illuminati Map project.
 Authors: Jacob Smilg and Markus Leschly
 '''
 
+from tqdm import tqdm
+
 def sort_dict(_dict, nested_sort_key=None, num_results=None):
     '''
     Sort a dictionary by its values.
@@ -34,27 +36,34 @@ def sort_dict(_dict, nested_sort_key=None, num_results=None):
     
     return sorted_dict
 
-def common_links(names, links_dict):
-    keep = []
-    common_links_dict = {name: [] for name in names}
-    for name in names:
-        for linker in links_dict[name]:
+def common_links(data_dict):
+    names = list(data_dict.keys())
+    for name in tqdm(names):
+        data_dict[name]['linkshere_within_category'] = []
+        for linker in data_dict[name]['linkshere']:
+            # if the linker is in the category, keep it
             if linker in names:
-                keep.append(name)
-                common_links_dict[name].append(linker)
-    
-    delete = [name for name in common_links_dict.keys() if name not in keep]
+                data_dict[name]['linkshere_within_category'].append(linker)
 
-    if len(delete):
-        for name in delete:
-            del common_links_dict[name]
+    return data_dict
 
-    return common_links_dict
+def remove_unlinked(data_dict):
+    data_dict_cleaned = data_dict.copy()
+
+    for person in data_dict.keys():
+        if len(data_dict[person]['linkshere_within_category']) == 0:
+            found_link = False
+            for search_person in data_dict.keys():
+                if person in data_dict[search_person]['linkshere_within_category']:
+                    found_link = True
+            if not found_link:
+                del data_dict_cleaned[person]
+    return data_dict_cleaned
 
 def trim_dict(_dict, length):
-    _dict = sort_dict(_dict, nested_sort_key='views', num_results=length)
+    _dict = sort_dict(_dict, nested_sort_key='total_views', num_results=length)
     for key in _dict.keys():
-        _dict[key]['links'] = list(filter(lambda link: link in _dict.keys(), _dict[key]['links']))
+        _dict[key]['linkshere_within_category'] = list(filter(lambda link: link in _dict.keys(), _dict[key]['linkshere_within_category']))
     return _dict
 
 def dict_to_nodes(_dict, target_key='targets', value_key='value'):
