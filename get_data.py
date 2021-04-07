@@ -10,7 +10,6 @@ import pickle
 import argparse
 from datetime import timedelta, datetime
 from mediawiki import MediaWiki
-import requests
 
 
 DEFAULT_CATEGORY = 'American_billionaires'
