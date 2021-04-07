@@ -53,7 +53,7 @@ def trim_dict(_dict, length):
         _dict[key]['linkshere_within_category'] = list(filter(lambda link: link in _dict.keys(), _dict[key]['linkshere_within_category']))
     return _dict
 
-def dict_to_nodes(_dict, target_key='targets', value_key='value'):
+def dict_to_nodes(_dict):
     '''
     Convert a dictionary of sources and targets to a dictionary of nodes and edges.
 
@@ -72,19 +72,20 @@ def dict_to_nodes(_dict, target_key='targets', value_key='value'):
     
     Parameters:
         _dict (dict): A dictionary of sources and targets. See above for example.
-        target_key (str): Optional. The key for the target list. Defaults to 'targets'.
-        value_key (str): Optional. The key for the source value. Defaults to 'value'.
+
+    Returns:
+        
     '''
     sources = _dict.keys()
     #unfold dict into list of tuples representing connections: (source, target, value)
     datalist = []
     for source in sources:
-        for target in _dict[source][target_key]:
-            datalist.append((source, target, _dict[source][value_key]))
+        for target in _dict[source]['linkshere_within_category']:
+            datalist.append((source, target, _dict[source]['total_views']))
 
     data = dict()
     names_with_indexes = {name:index for index, name in enumerate(sources)}
-    data['nodes'] = [{'name': source, 'group': _dict[source][value_key]} for source in sources]
+    data['nodes'] = [{'name': source, 'group': _dict[source]['total_views']} for source in sources]
     data['links'] = [  {'source': names_with_indexes[source],
                         'target': names_with_indexes[target], 
                         'value': value} for source, target, value in datalist]
