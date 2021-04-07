@@ -36,9 +36,9 @@ def sort_dict(_dict, nested_sort_key=None, num_results=None):
     
     return sorted_dict
 
-def common_links(data_dict):
+def common_links(data_dict, show_progress=False):
     names = list(data_dict.keys())
-    for name in tqdm(names):
+    for name in tqdm(names, disable=(not show_progress)):
         data_dict[name]['linkshere_within_category'] = []
         for linker in data_dict[name]['linkshere']:
             # if the linker is in the category, keep it
@@ -46,19 +46,6 @@ def common_links(data_dict):
                 data_dict[name]['linkshere_within_category'].append(linker)
 
     return data_dict
-
-def remove_unlinked(data_dict):
-    data_dict_cleaned = data_dict.copy()
-
-    for person in data_dict.keys():
-        if len(data_dict[person]['linkshere_within_category']) == 0:
-            found_link = False
-            for search_person in data_dict.keys():
-                if person in data_dict[search_person]['linkshere_within_category']:
-                    found_link = True
-            if not found_link:
-                del data_dict_cleaned[person]
-    return data_dict_cleaned
 
 def trim_dict(_dict, length):
     _dict = sort_dict(_dict, nested_sort_key='total_views', num_results=length)
