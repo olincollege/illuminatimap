@@ -166,9 +166,9 @@ COMMON_LINKS_CASES = [
     }),
 ]
 
-# TRIM_DICT_CASES = [
-#     (inp, out),
-# ]
+TRIM_DICT_CASES = [
+    #(raw, length, out),
+]
 
 DICT_TO_NODES_CASES = [
     #Checking only 1:1 targets
@@ -211,7 +211,7 @@ def test_sort_dict(raw_dict, formatted_dict):
 @pytest.mark.parametrize('raw_dict,formatted_dict', COMMON_LINKS_CASES)
 def test_common_links(raw_dict, formatted_dict):
     '''
-    Check that the function sort_dict works properly.
+    Check that the function common_links works properly.
 
     Args:
         raw_dict: 
@@ -219,10 +219,21 @@ def test_common_links(raw_dict, formatted_dict):
     '''
     assert common_links(raw_dict) == formatted_dict
 
+@pytest.mark.parametrize('raw_dict,length,formatted_dict', TRIM_DICT_CASES)
+def test_trim_dict(raw_dict, length, formatted_dict):
+    '''
+    Check that the function trim_dict works properly.
+
+    Args:
+        raw_dict: 
+        formatted_dict: 
+    '''
+    assert trim_dict(raw_dict, length) == formatted_dict
+
 @pytest.mark.parametrize('raw_dict,formatted_dict', DICT_TO_NODES_CASES)
 def test_dict_to_nodes(raw_dict, formatted_dict):
     '''
-    Check that the function sort_dict works properly.
+    Check that the function dict_to_nodes works properly.
 
     Args:
         raw_dict: 
