@@ -56,12 +56,12 @@ def common_links(data_dict, show_progress=False):
         A dictionary formatted the same as the input, but with the key 'linkshere_within_category'
         added to each page's subdictionary.
     '''
-    names = list(data_dict.keys())
-    for name in tqdm(names, disable=(not show_progress)):
+
+    for name in tqdm(data_dict, disable=(not show_progress)):
         data_dict[name]['linkshere_within_category'] = []
         for linker in data_dict[name]['linkshere']:
             # if the linker is in the category, keep it
-            if linker in names:
+            if linker in data_dict:
                 data_dict[name]['linkshere_within_category'].append(linker)
 
     return data_dict
