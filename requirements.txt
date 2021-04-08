@@ -3,3 +3,7 @@ wiki
 pymediawiki
 python-igraph
 chart_studio
+squarify
+pandas
+plotly
+pytest
