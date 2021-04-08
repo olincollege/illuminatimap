@@ -6,3 +6,4 @@ chart_studio
 squarify
 pandas
 plotly
+pytest
