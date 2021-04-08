@@ -8,9 +8,6 @@ from helpers import common_links, dict_to_nodes, sort_dict, trim_dict
 SORT_DICT_CASES = [
     # Tests to add:
     # Returns the correct number of results
-    # 0 results
-    # random num
-    # the full length of the input list
     # That a nested dictionary is correctly sorted
 
     # Checking that an ordered dictionary is returned as itself
@@ -27,7 +24,11 @@ SORT_DICT_CASES = [
         test3=3,
         test4=4,
         test5=5,
-        test6=6)),
+        test6=6
+    ),
+    None,
+    None
+    ),
     # Checking that a nonordered unique dictionary is sorted correctly
     (dict(
         test1=6,
@@ -42,7 +43,11 @@ SORT_DICT_CASES = [
         test4=3,
         test3=4,
         test2=5,
-        test1=6)),
+        test1=6
+    ),
+    None,
+    None
+    ),
     # Checking that if numbers are the same, the returned order is the same as
     # the input order
     (dict(
@@ -58,9 +63,63 @@ SORT_DICT_CASES = [
         test3=1,
         test4=1,
         test5=1,
-        test6=1)),
+        test6=1
+    ),
+    None,
+    None
+    ),
     # Checking that an empty dict returns an empty dict
-    (dict(), dict()),
+    (dict(), dict(), None, None),
+
+    # Checking that the number of results is trimmed correctly
+    (dict(
+        test1=6,
+        test2=5,
+        test3=4,
+        test4=3,
+        test5=2,
+        test6=1
+    ), dict(
+        test1=6,
+        test2=5,
+        test3=4,
+    ),
+    None,
+    3
+    ),
+
+    # Checking that 0 results can be returned
+    (dict(
+        test1=6,
+        test2=5,
+        test3=4,
+        test4=3,
+        test5=2,
+        test6=1
+    ), dict(),
+    None,
+    0
+    ),
+
+    # Checking the full list length can be returned
+    (dict(
+        test1=6,
+        test2=5,
+        test3=4,
+        test4=3,
+        test5=2,
+        test6=1
+    ), dict(
+        test1=6,
+        test2=5,
+        test3=4,
+        test4=3,
+        test5=2,
+        test6=1
+    ),
+    None,
+    6
+    ),
 ]
 
 COMMON_LINKS_CASES = [
@@ -347,9 +406,8 @@ DICT_TO_NODES_CASES = [
                 ]})
 ]
 
-
-@pytest.mark.parametrize('raw_dict,formatted_dict', SORT_DICT_CASES)
-def test_sort_dict(raw_dict, formatted_dict):
+@pytest.mark.parametrize('raw_dict,formatted_dict,nested_sort_key,num_results', SORT_DICT_CASES)
+def test_sort_dict(raw_dict, formatted_dict,nested_sort_key,num_results):
     '''
     Check that the function sort_dict works properly.
 
@@ -357,7 +415,7 @@ def test_sort_dict(raw_dict, formatted_dict):
         raw_dict:
         formatted_dict:
     '''
-    assert sort_dict(raw_dict) == formatted_dict
+    assert sort_dict(raw_dict,nested_sort_key,num_results) == formatted_dict
 
 
 @pytest.mark.parametrize('raw_dict,formatted_dict', COMMON_LINKS_CASES)
