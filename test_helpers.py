@@ -2,12 +2,8 @@
 Test that helper functions for illuminatimap are working properly.
 '''
 import pytest
-from helpers import (
-    sort_dict,
-    common_links,
-    trim_dict,
-    dict_to_nodes,
-)
+
+from helpers import common_links, dict_to_nodes, sort_dict, trim_dict
 
 SORT_DICT_CASES = [
     # Tests to add:
@@ -96,7 +92,7 @@ COMMON_LINKS_CASES = [
          'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
          'pageid': 2,
          'total_views': 3,
-            'linkshere_within_category': ['Mark Sommerville']
+         'linkshere_within_category': ['Mark Sommerville']
         },
     }),
 
@@ -128,7 +124,7 @@ COMMON_LINKS_CASES = [
          'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
          'pageid': 2,
          'total_views': 3,
-            'linkshere_within_category': []
+         'linkshere_within_category': []
         },
     }),
 
@@ -160,14 +156,100 @@ COMMON_LINKS_CASES = [
          'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
          'pageid': 2,
          'total_views': 3,
-            'linkshere_within_category': ['Mark Sommerville']
+         'linkshere_within_category': ['Mark Sommerville']
         },
     }),
 ]
 
 TRIM_DICT_CASES = [
-    #(raw, length, out),
+    # ({'Mark Sommerville': {
+    #     'linkshere': ['Jeff Dusek'],
+    #     'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+    #     'pageid': 1,
+    #     'total_views': 15
+    #     },
+    #     'John Geddes': {
+    #     'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
+    #     'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+    #     'pageid': 2,
+    #     'total_views': 20
+    #     },
+    #     'Jeff Dusek': {
+    #     'linkshere': ['John Geddes', 'Mark Sommerville'],
+    #     'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+    #     'pageid': 3,
+    #     'total_views': 11
+    #     },
+    # },
+    # #Cut length
+    # 3,
+    #     # Output
+    #     {'John Geddes': {
+    #     'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
+    #     'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+    #     'pageid': 2,
+    #     'total_views': 20,
+    #     'linkshere_within_category': ['Jeff Dusek','Mark Sommerville']
+    #     },
+    #     'Mark Sommerville': {
+    #     'linkshere': ['Jeff Dusek'],
+    #     'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+    #     'pageid': 1,
+    #     'total_views': 15,
+    #     'linkshere_within_category': ['Jeff Dusek']
+    #     },
+    #     'Jeff Dusek': {
+    #     'linkshere': ['John Geddes', 'Mark Sommerville'],
+    #     'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+    #     'pageid': 3,
+    #     'total_views': 11,
+    #     'linkshere_within_category': ['John Geddes','Mark Sommerville']
+    #     },
+    # }),
+    ({'Mark Sommerville': {
+        'linkshere': ['Jeff Dusek'],
+        'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+        'pageid': 1,
+        'total_views': 15
+        },
+        'John Geddes': {
+        'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
+        'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+        'pageid': 2,
+        'total_views': 20
+        },
+        'Jeff Dusek': {
+        'linkshere': ['John Geddes', 'Mark Sommerville'],
+        'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+        'pageid': 3,
+        'total_views': 11
+        },
+    },
+    #Cut length
+    2,
+        # Output
+        {'John Geddes': {
+        'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
+        'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+        'pageid': 2,
+        'total_views': 20,
+        'linkshere_within_category': ['Mark Sommerville']
+        },
+        'Mark Sommerville': {
+        'linkshere': ['Jeff Dusek'],
+        'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+        'pageid': 1,
+        'total_views': 15,
+        'linkshere_within_category': []
+        },
+    }),
 ]
+
+
+    
+
+
+
 
 DICT_TO_NODES_CASES = [
     # Checking only 1:1 targets
