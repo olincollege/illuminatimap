@@ -74,7 +74,8 @@ def common_links(data_dict, show_progress=False):
 def trim_dict(_dict, length):
     '''
     Sorts a dictionary of Wikipedia category data as formatted by get_data.py by total page views
-    in descending order, and trims it to a specified length.
+    in descending order, and trims it to a specified length. Then it removes any common links that
+    no longer exist in the dictionary.
 
     Parameters:
         _dict: A dictionary of Wikipedia category data as formatted by get_data.py.
@@ -95,13 +96,12 @@ def trim_dict(_dict, length):
 def dict_to_nodes(_dict):
     '''
     Convert a dictionary of sources and targets to a dictionary of nodes and edges for Kamada-Kawai
-    layout generation. All groups are set to 0, and the total page view counts are used as the
-    values.
+    layout generation. All groups and values are set to the number of total page views.
 
-    Input formatted as {'John Doe': {value: 10, targets:['Jane Doe']},
-                        'Jane Doe': {value: 7, targets:['John Smith']},
-                        'Bob': {value: 8, targets:['Alice']},
-                        'Alice': {value: 5, targets:['Bob']}}
+    Input formatted as {'John Doe': {'total_views': 10, 'linkshere_within_category':['Jane Doe']},
+                        'Jane Doe': {'total_views': 7, 'linkshere_within_category':['John Smith']},
+                        'Bob': {'total_views': 8, 'linkshere_within_category':['Alice']},
+                        'Alice': {'total_views': 5, 'linkshere_within_category':['Bob']}}
     is converted to the format {'nodes': [{'name': 'John Smith', 'group': 0},
                                         {'name': 'Jane Doe', 'group': 0},
                                         {'name': 'Bob', 'group': 0},
@@ -127,8 +127,8 @@ def dict_to_nodes(_dict):
     data = dict()
     # rearrange the data into the new format
     names_with_indexes = {name: index for index, name in enumerate(sources)}
-    data['nodes'] = [{'name': source, 'group': _dict[source]
-                      ['total_views']} for source in sources]
+    data['nodes'] = [{'name': source, 'group': _dict[source]['total_views']}
+                        for source in sources]
     data['links'] = [{'source': names_with_indexes[source],
                       'target': names_with_indexes[target],
                       'value': value} for source, target, value in datalist]
