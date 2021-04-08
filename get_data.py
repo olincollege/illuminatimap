@@ -224,6 +224,7 @@ def main(args):
     parsed_args = parser.parse_args(args[1:])
     data = get_data(parsed_args.category, parsed_args.rate_limit,
                     parsed_args.rate_limit_wait)
+    # save our data
     with open(parsed_args.filename, 'wb') as file:
         pickle.dump(data, file)
 
