@@ -166,13 +166,35 @@ COMMON_LINKS_CASES = [
     }),
 ]
 
-TRIM_DICT_CASES = [
-    (inp, out),
-]
-
-# DICT_TO_NODES_CASES = [
+# TRIM_DICT_CASES = [
 #     (inp, out),
 # ]
+
+DICT_TO_NODES_CASES = [
+    #Checking only 1:1 targets
+    #Input
+    ({'John Smith': {'value': 10, 'target':['Jane Doe']},
+    'Jane Doe': {'value': 7, 'target':['John Smith']}},
+    #Output
+    {'nodes': [{'name': 'John Smith', 'group': 0},
+            {'name': 'Jane Doe', 'group': 0},],
+    'links': [{'source': 0, 'target': 1, 'value': 10},
+            {'source': 1, 'target': 0, 'value': 7}]}),
+    
+    #Checking multiple targets
+    #Input
+    ({'John Doe': {'value': 10, 'target':['Jane Doe','Bob']},
+    'Jane Doe': {'value': 7, 'target':['John Smith']},
+    'Bob': {'value': 8, 'targets':['Jane Doe']}},
+    #Output
+    {'nodes': [{'name': 'John Smith', 'group': 0},
+            {'name': 'Jane Doe', 'group': 0},
+            {'name': 'Bob', 'group': 0},],
+    'links': [{'source': 0, 'target': 1, 'value': 10},
+            {'source': 0, 'target': 2, 'value': 10},
+            {'source': 1, 'target': 0, 'value': 7},
+            {'source': 2, 'target': 1, 'value': 8}]})
+]
 
 @pytest.mark.parametrize('raw_dict,formatted_dict', SORT_DICT_CASES)
 def test_sort_dict(raw_dict, formatted_dict):
@@ -195,3 +217,14 @@ def test_common_links(raw_dict, formatted_dict):
         formatted_dict: 
     '''
     assert common_links(raw_dict) == formatted_dict
+
+@pytest.mark.parametrize('raw_dict,formatted_dict', DICT_TO_NODES_CASES)
+def test_dict_to_nodes(raw_dict, formatted_dict):
+    '''
+    Check that the function sort_dict works properly.
+
+    Args:
+        raw_dict: 
+        formatted_dict: 
+    '''
+    assert dict_to_nodes(raw_dict) == formatted_dict
