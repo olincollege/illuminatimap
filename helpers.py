@@ -16,9 +16,9 @@ def sort_dict(_dict, nested_sort_key=None, num_results=None):
                         dictionary, specify this as the key for which nested value the dictionary
                         should be sorted by.
         num_results (int): Optional, defaults to None. If specified, will return a sorted dictionary
-            of length num_results consisting of the keys with the highest values. If left None, returns
-            the entire sorted dictionary.
-    
+            of length num_results consisting of the keys with the highest values. If left None,
+            returns the entire sorted dictionary.
+
     Returns:
         A new dictionary, sorted by its values.
     '''
@@ -31,12 +31,27 @@ def sort_dict(_dict, nested_sort_key=None, num_results=None):
     else:
         sorted_keys = sorted(_dict, key=lambda x: (_dict[x][nested_sort_key]), reverse=True)
 
-    for w in sorted_keys[0:num_results]:
-        sorted_dict[w] = _dict[w]
-    
+    for key in sorted_keys[0:num_results]:
+        sorted_dict[key] = _dict[key]
+
     return sorted_dict
 
 def common_links(data_dict, show_progress=False):
+    '''
+    Adds common links within a category to a dictionary containing data on Wikipedia pages in the
+    same category.
+
+    A key called 'linkshere_within_category' is added to each page's subdictionary.
+
+    Parameters:
+        data_dict: A dictionary of Wikipedia data as formatted by get_data.py.
+        show_progress: An optional boolean value to set whether or not to display a progress bar
+            for this function.
+
+    Returns:
+        A dictionary formatted the same as the input, but with the key 'linkshere_within_category'
+        added to each page's subdictionary.
+    '''
     names = list(data_dict.keys())
     for name in tqdm(names, disable=(not show_progress)):
         data_dict[name]['linkshere_within_category'] = []
@@ -48,9 +63,18 @@ def common_links(data_dict, show_progress=False):
     return data_dict
 
 def trim_dict(_dict, length):
+    '''
+    Sorts a dictionary of Wikipedia category data as formatted by get_data.py by total page views
+    in descending order, and trims it to a specified length.
+
+    Parameters:
+        _dict: A dictionary of Wikipedia category data as formatted by get_data.py.
+        length: An int representing the desired length of the dictionary.
+    '''
     _dict = sort_dict(_dict, nested_sort_key='total_views', num_results=length)
-    for key in _dict.keys():
-        _dict[key]['linkshere_within_category'] = list(filter(lambda link: link in _dict.keys(), _dict[key]['linkshere_within_category']))
+    for key in _dict:
+        _dict[key]['linkshere_within_category'] = list(
+            filter(lambda link: link in _dict, _dict[key]['linkshere_within_category']))
     return _dict
 
 def dict_to_nodes(_dict):
@@ -69,12 +93,12 @@ def dict_to_nodes(_dict):
                                         {'source': 1, 'target': 0, 'value': 7},
                                         {'source': 2, 'target': 3, 'value': 8},
                                         {'source': 3, 'target': 2, 'value': 5}]}
-    
+
     Parameters:
         _dict (dict): A dictionary of sources and targets. See above for example.
 
     Returns:
-        
+        A dictionary of "nodes" and "links" as specified above.
     '''
     sources = _dict.keys()
     #unfold dict into list of tuples representing connections: (source, target, value)
@@ -87,6 +111,6 @@ def dict_to_nodes(_dict):
     names_with_indexes = {name:index for index, name in enumerate(sources)}
     data['nodes'] = [{'name': source, 'group': _dict[source]['total_views']} for source in sources]
     data['links'] = [  {'source': names_with_indexes[source],
-                        'target': names_with_indexes[target], 
+                        'target': names_with_indexes[target],
                         'value': value} for source, target, value in datalist]
     return data
