@@ -36,7 +36,8 @@ def get_generator(wiki, category):
     to be processed elsewhere.
 
     For details on the format returned by the API, see the official documentation, and
-    be sure it specifies format version 2.
+    be sure it specifies format version 2. This function uses a "generator," for which info can be
+    found in the official documentation.
 
     Parameters:
         wiki: A MediaWiki instance configured to access Wikipedia. It would be smart to rate limit
@@ -48,26 +49,41 @@ def get_generator(wiki, category):
         A list of dictionaries containing the responses from Wikipedia. A large amount of this data
         is empty, and should be trimmed and formatted elsewhere.
     '''
+    # set up a dictionary of request parameters for the generator.
     search_params = {
         'gcmtitle': f'Category:{category}',
     }
 
     search_params.update(GENERAL_SEARCH_PARAMS)
+
     print(f'Getting information for category: {category}...')
+
+    # set up the list to store the API data in
     pages = []
-    finished = False
+
+    # used for "continuing" a request; see API documentation for a proper explanation but basically
+    # sometimes we get a "continue" key in the API return that lets us get more data starting from
+    # where the previous request left off if there was too much to fit in one API return.
     cont = dict()
 
+    # stuff to keep track of progress to be sure nothing got stuck
     start_time = datetime.now()
     last_update = timedelta(seconds=1)
     requests_count = 1
 
+    finished = False
     while not finished:
+        # make a copy for safety, makes sure continue stuff doesn't persist, since there are a few
+        # different continue parameters that aren't always returned.
         params = search_params.copy()
         params.update(cont)
+
+        # get data from the API and tack what it gives onto the end of our list
         result = wiki.wiki_request(params)
         pages.extend(result['query']['pages'])
 
+        # figure out how much time has passed since the function started, and remove milliseconds
+        # from it so it looks nice for printing
         elapsed_time = datetime.now() - start_time
         elapsed_time_str = str(elapsed_time).split('.')[0]
 
@@ -75,13 +91,15 @@ def get_generator(wiki, category):
         if result.get('continue', False):
             cont = result['continue']
 
-            # progress message
+            # progress message - only display if it's been more than a second so we don't waste
+            # time printing to the terminal a bunch
             if elapsed_time - last_update > timedelta(seconds=1):
                 print(f'[{elapsed_time_str}]   Sending request #{requests_count}...'.ljust(80),
                     end='\r', flush=True)
                 last_update = elapsed_time
                 requests_count += 1
         else:
+            # no continue returned from API means we're done
             print(f'[{elapsed_time_str}]   Done getting data!'.ljust(80))
             finished = True
 
