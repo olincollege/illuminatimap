@@ -8,6 +8,7 @@ FORMAT_DATA_CASES = [
     (inp, out),
 ]
 
+
 @pytest.mark.parametrize('raw_dict,formatted_dict', FORMAT_DATA_CASES)
 def test_format_data(raw_dict, formatted_dict):
     '''

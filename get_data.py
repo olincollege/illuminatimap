@@ -27,7 +27,8 @@ GENERAL_SEARCH_PARAMS = {
     'pvipdays': 60,
     'lhnamespace': 0,   # article pages only
     'lhlimit': 500,
-    }
+}
+
 
 def get_generator(wiki, category):
     '''
@@ -95,7 +96,7 @@ def get_generator(wiki, category):
             # time printing to the terminal a bunch
             if elapsed_time - last_update > timedelta(seconds=1):
                 print(f'[{elapsed_time_str}]   Sending request #{requests_count}...'.ljust(80),
-                    end='\r', flush=True)
+                      end='\r', flush=True)
                 last_update = elapsed_time
                 requests_count += 1
         else:
@@ -104,6 +105,7 @@ def get_generator(wiki, category):
             finished = True
 
     return pages
+
 
 def format_data(data):
     '''
@@ -135,9 +137,10 @@ def format_data(data):
         # list pages don't have anything to do with our project, so we ignore them
         if 'List of' in title:
             continue
-        if not formatted_data.get(title, False): # if a page hasn't been put in the new dictionary
+        # if a page hasn't been put in the new dictionary
+        if not formatted_data.get(title, False):
             # make a new entry for the category member
-            formatted_data[title] = {'linkshere': [],'pageviews': {}}
+            formatted_data[title] = {'linkshere': [], 'pageviews': {}}
             formatted_data[title]['pageid'] = page['pageid']
         # add to the category member's entry - sometimes the generator gives us links, sometimes
         # it gives us pageviews, so we need to determine what we have and slap it into the new
@@ -154,12 +157,13 @@ def format_data(data):
     # page views and the common links within the category.
     for page in formatted_data:
         page_views = {date: views for date, views in
-            formatted_data[page]['pageviews'].items() if views is not None}
+                      formatted_data[page]['pageviews'].items() if views is not None}
         formatted_data[page]['total_views'] = sum(list(page_views.values()))
     print('Finding common links...')
     formatted_data = common_links(formatted_data)
     print('Done formatting data!')
     return formatted_data
+
 
 def get_data(category, rate_limit, rate_limit_wait=1):
     '''
@@ -176,13 +180,14 @@ def get_data(category, rate_limit, rate_limit_wait=1):
     '''
     wikipedia = MediaWiki(
         url='https://en.wikipedia.org/w/api.php',
-        user_agent = 'illuminati-map',
-        rate_limit = rate_limit,
-        rate_limit_wait = timedelta(seconds=rate_limit_wait),
-        cat_prefix = 'Category:')
+        user_agent='illuminati-map',
+        rate_limit=rate_limit,
+        rate_limit_wait=timedelta(seconds=rate_limit_wait),
+        cat_prefix='Category:')
 
     raw_data = get_generator(wikipedia, category)
     return format_data(raw_data)
+
 
 def get_parser(name):
     '''
@@ -199,17 +204,19 @@ def get_parser(name):
     '''
 
     parser = argparse.ArgumentParser(name)
-    parser.add_argument('filename', type=str, help='Path to save the obtained data (.pkl) to')
+    parser.add_argument('filename', type=str,
+                        help='Path to save the obtained data (.pkl) to')
     parser.add_argument('-c', '--category', type=str, default=DEFAULT_CATEGORY,
                         help=f'Width of the generated image in pixels '
                              f'(default: {DEFAULT_CATEGORY})')
     parser.add_argument('-r', '--rate-limit', type=bool, default=DEFAULT_RATE_LIMIT,
                         help='Use rate limiting to limit calls to Wikipedia '
-                            f'(default: {DEFAULT_RATE_LIMIT})')
+                        f'(default: {DEFAULT_RATE_LIMIT})')
     parser.add_argument('-w', '--rate-limit-wait', type=bool, default=DEFAULT_RATE_LIMIT_WAIT,
                         help='The amount of time to wait between requests in seconds '
-                            f'(default: {DEFAULT_RATE_LIMIT_WAIT})')
+                        f'(default: {DEFAULT_RATE_LIMIT_WAIT})')
     return parser
+
 
 def main(args):
     '''
@@ -227,6 +234,7 @@ def main(args):
     # save our data
     with open(parsed_args.filename, 'wb') as file:
         pickle.dump(data, file)
+
 
 if __name__ == '__main__':
     main(sys.argv)
