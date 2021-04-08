@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 def sort_dict(_dict, nested_sort_key=None, num_results=None):
     '''
-    Sort a dictionary by its values.
+    Sort a dictionary by its values. Meant to be used for numeric values only.
 
     Parameters:
         _dict (dict): The dictionary to be sorted. Each key's value should be an integer.
@@ -22,15 +22,19 @@ def sort_dict(_dict, nested_sort_key=None, num_results=None):
     Returns:
         A new dictionary, sorted by its values.
     '''
+    # default to sorting the whole dictionary if a length isn't specified
     if num_results is None:
         num_results = len(_dict.keys())
 
     sorted_dict = dict()
+    # if no nested key was specified, assume the dict is only one level deep, and sort accordingly
     if nested_sort_key is None:
         sorted_keys = sorted(_dict, key=_dict.get, reverse=True)
     else:
+        # if a nested key was specified, sort by that using a lambda function
         sorted_keys = sorted(_dict, key=lambda x: (_dict[x][nested_sort_key]), reverse=True)
 
+    # make a new, sorted dictionary by inserting the data in order.
     for key in sorted_keys[0:num_results]:
         sorted_dict[key] = _dict[key]
 
