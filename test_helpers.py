@@ -7,7 +7,6 @@ from helpers import common_links, dict_to_nodes, sort_dict, trim_dict
 
 SORT_DICT_CASES = [
     # Tests to add:
-    # Returns the correct number of results
     # That a nested dictionary is correctly sorted
 
     # Checking that an ordered dictionary is returned as itself
