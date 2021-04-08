@@ -37,6 +37,21 @@ def sort_dict(_dict, nested_sort_key=None, num_results=None):
     return sorted_dict
 
 def common_links(data_dict, show_progress=False):
+    '''
+    Adds common links within a category to a dictionary containing data on Wikipedia pages in the
+    same category.
+
+    A key called 'linkshere_within_category' is added to each page's subdictionary.
+
+    Parameters:
+        data_dict: A dictionary of Wikipedia data as formatted by get_data.py.
+        show_progress: An optional boolean value to set whether or not to display a progress bar
+            for this function.
+
+    Returns:
+        A dictionary formatted the same as the input, but with the key 'linkshere_within_category'
+        added to each page's subdictionary.
+    '''
     names = list(data_dict.keys())
     for name in tqdm(names, disable=(not show_progress)):
         data_dict[name]['linkshere_within_category'] = []
@@ -48,6 +63,14 @@ def common_links(data_dict, show_progress=False):
     return data_dict
 
 def trim_dict(_dict, length):
+    '''
+    Sorts a dictionary of Wikipedia category data as formatted by get_data.py by total page views
+    in descending order, and trims it to a specified length.
+
+    Parameters:
+        _dict: A dictionary of Wikipedia category data as formatted by get_data.py.
+        length: An int representing the desired length of the dictionary.
+    '''
     _dict = sort_dict(_dict, nested_sort_key='total_views', num_results=length)
     for key in _dict:
         _dict[key]['linkshere_within_category'] = list(
