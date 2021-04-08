@@ -200,13 +200,13 @@ def get_parser(name):
 
     parser = argparse.ArgumentParser(name)
     parser.add_argument('filename', type=str, help='Path to save the obtained data (.pkl) to')
-    parser.add_argument('--category', type=str, default=DEFAULT_CATEGORY,
+    parser.add_argument('-c', '--category', type=str, default=DEFAULT_CATEGORY,
                         help=f'Width of the generated image in pixels '
                              f'(default: {DEFAULT_CATEGORY})')
-    parser.add_argument('--rate-limit', type=bool, default=DEFAULT_RATE_LIMIT,
+    parser.add_argument('-r', '--rate-limit', type=bool, default=DEFAULT_RATE_LIMIT,
                         help='Use rate limiting to limit calls to Wikipedia '
                             f'(default: {DEFAULT_RATE_LIMIT})')
-    parser.add_argument('--rate-limit-wait', type=bool, default=DEFAULT_RATE_LIMIT_WAIT,
+    parser.add_argument('-w', '--rate-limit-wait', type=bool, default=DEFAULT_RATE_LIMIT_WAIT,
                         help='The amount of time to wait between requests in seconds '
                             f'(default: {DEFAULT_RATE_LIMIT_WAIT})')
     return parser
