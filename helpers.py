@@ -76,7 +76,12 @@ def trim_dict(_dict, length):
         _dict: A dictionary of Wikipedia category data as formatted by get_data.py.
         length: An int representing the desired length of the dictionary.
     '''
+    # sort the dictionary and trim it
     _dict = sort_dict(_dict, nested_sort_key='total_views', num_results=length)
+
+    # since trimming the dictionary removed some category members, we now need to remove those from
+    # 'linkshere_within_category' for every remaining page, or there will be invalid links later on
+    # in our plot generation
     for key in _dict:
         _dict[key]['linkshere_within_category'] = list(
             filter(lambda link: link in _dict, _dict[key]['linkshere_within_category']))
