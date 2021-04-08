@@ -129,20 +129,29 @@ def format_data(data):
     '''
     print('Formatting data...')
     formatted_data = {}
+    # loop through the request data and consolidate it into a single dictionary
     for page in data:
         title = page['title']
+        # list pages don't have anything to do with our project, so we ignore them
         if 'List of' in title:
             continue
-        if not formatted_data.get(title, False):
+        if not formatted_data.get(title, False): # if a page hasn't been put in the new dictionary
             # make a new entry for the category member
             formatted_data[title] = {'linkshere': [],'pageviews': {}}
             formatted_data[title]['pageid'] = page['pageid']
-        # add to the category member's entry
+        # add to the category member's entry - sometimes the generator gives us links, sometimes
+        # it gives us pageviews, so we need to determine what we have and slap it into the new
+        # dictionary
         if page.get('linkshere', False):
             formatted_data[title]['linkshere'].extend(
                 [linkpage['title'] for linkpage in page['linkshere']])
         if page.get('pageviews', False):
+            # since pageviews is formatted as a dictionary with unique dates as keys, we don't have
+            # to worry about .update() replacing any data.
             formatted_data[title]['pageviews'].update(page['pageviews'])
+
+    # after we get all the raw data organized, we do a small amount of processing to get the total
+    # page views and the common links within the category.
     for page in formatted_data:
         page_views = {date: views for date, views in
             formatted_data[page]['pageviews'].items() if views is not None}
