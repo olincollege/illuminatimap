@@ -210,19 +210,22 @@ TRIM_DICT_CASES = [
         'linkshere': ['Jeff Dusek'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 1,
-        'total_views': 15
+        'total_views': 15,
+        'linkshere_within_category': ['Jeff Dusek']
         },
         'John Geddes': {
         'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 2,
-        'total_views': 20
+        'total_views': 20,
+        'linkshere_within_category': ['Mark Sommerville', 'Jeff Dusek']
         },
         'Jeff Dusek': {
         'linkshere': ['John Geddes', 'Mark Sommerville'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 3,
-        'total_views': 11
+        'total_views': 11,
+        'linkshere_within_category': ['Mark Sommerville, John Geddes']
         },
     },
     #Cut length
@@ -254,23 +257,23 @@ TRIM_DICT_CASES = [
 DICT_TO_NODES_CASES = [
     # Checking only 1:1 targets
     # Input
-    ({'John Smith': {'value': 10, 'target': ['Jane Doe']},
-      'Jane Doe': {'value': 7, 'target': ['John Smith']}},
+    ({'John Smith': {'total_views': 10, 'linkshere_within_category': ['Jane Doe']},
+      'Jane Doe': {'total_views': 7, 'linkshere_within_category': ['John Smith']}},
      # Output
-     {'nodes': [{'name': 'John Smith', 'group': 0},
-                {'name': 'Jane Doe', 'group': 0}, ],
+     {'nodes': [{'name': 'John Smith', 'group': 10},
+                {'name': 'Jane Doe', 'group': 7}, ],
       'links': [{'source': 0, 'target': 1, 'value': 10},
                 {'source': 1, 'target': 0, 'value': 7}]}),
 
     # Checking multiple targets
     # Input
-    ({'John Doe': {'value': 10, 'target': ['Jane Doe', 'Bob']},
-      'Jane Doe': {'value': 7, 'target': ['John Smith']},
-      'Bob': {'value': 8, 'targets': ['Jane Doe']}},
+    ({'John Smith': {'total_views': 10, 'linkshere_within_category': ['Jane Doe', 'Bob']},
+      'Jane Doe': {'total_views': 7, 'linkshere_within_category': ['John Smith']},
+      'Bob': {'total_views': 8, 'linkshere_within_category': ['Jane Doe']}},
      # Output
-     {'nodes': [{'name': 'John Smith', 'group': 0},
-                {'name': 'Jane Doe', 'group': 0},
-                {'name': 'Bob', 'group': 0}, ],
+     {'nodes': [{'name': 'John Smith', 'group': 10},
+                {'name': 'Jane Doe', 'group': 7},
+                {'name': 'Bob', 'group': 8},],
       'links': [{'source': 0, 'target': 1, 'value': 10},
                 {'source': 0, 'target': 2, 'value': 10},
                 {'source': 1, 'target': 0, 'value': 7},
