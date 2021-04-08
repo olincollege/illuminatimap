@@ -26,6 +26,7 @@ DICT_TO_NODES_CASES = [
     (inp, out),
 ]
 
+
 @pytest.mark.parametrize('raw_dict,formatted_dict', SORT_DICT_CASES)
 def test_sort_dict(raw_dict, formatted_dict):
     '''

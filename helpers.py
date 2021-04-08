@@ -6,6 +6,7 @@ Authors: Jacob Smilg and Markus Leschly
 
 from tqdm import tqdm
 
+
 def sort_dict(_dict, nested_sort_key=None, num_results=None):
     '''
     Sort a dictionary by its values. Meant to be used for numeric values only.
@@ -32,13 +33,15 @@ def sort_dict(_dict, nested_sort_key=None, num_results=None):
         sorted_keys = sorted(_dict, key=_dict.get, reverse=True)
     else:
         # if a nested key was specified, sort by that using a lambda function
-        sorted_keys = sorted(_dict, key=lambda x: (_dict[x][nested_sort_key]), reverse=True)
+        sorted_keys = sorted(_dict, key=lambda x: (
+            _dict[x][nested_sort_key]), reverse=True)
 
     # make a new, sorted dictionary by inserting the data in order.
     for key in sorted_keys[0:num_results]:
         sorted_dict[key] = _dict[key]
 
     return sorted_dict
+
 
 def common_links(data_dict, show_progress=False):
     '''
@@ -67,6 +70,7 @@ def common_links(data_dict, show_progress=False):
 
     return data_dict
 
+
 def trim_dict(_dict, length):
     '''
     Sorts a dictionary of Wikipedia category data as formatted by get_data.py by total page views
@@ -86,6 +90,7 @@ def trim_dict(_dict, length):
         _dict[key]['linkshere_within_category'] = list(
             filter(lambda link: link in _dict, _dict[key]['linkshere_within_category']))
     return _dict
+
 
 def dict_to_nodes(_dict):
     '''
@@ -121,9 +126,10 @@ def dict_to_nodes(_dict):
 
     data = dict()
     # rearrange the data into the new format
-    names_with_indexes = {name:index for index, name in enumerate(sources)}
-    data['nodes'] = [{'name': source, 'group': _dict[source]['total_views']} for source in sources]
-    data['links'] = [  {'source': names_with_indexes[source],
-                        'target': names_with_indexes[target],
-                        'value': value} for source, target, value in datalist]
+    names_with_indexes = {name: index for index, name in enumerate(sources)}
+    data['nodes'] = [{'name': source, 'group': _dict[source]
+                      ['total_views']} for source in sources]
+    data['links'] = [{'source': names_with_indexes[source],
+                      'target': names_with_indexes[target],
+                      'value': value} for source, target, value in datalist]
     return data
