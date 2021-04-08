@@ -89,7 +89,9 @@ def trim_dict(_dict, length):
 
 def dict_to_nodes(_dict):
     '''
-    Convert a dictionary of sources and targets to a dictionary of nodes and edges.
+    Convert a dictionary of sources and targets to a dictionary of nodes and edges for Kamada-Kawai
+    layout generation. All groups are set to 0, and the total page view counts are used as the
+    values.
 
     Input formatted as {'John Doe': {value: 10, targets:['Jane Doe']},
                         'Jane Doe': {value: 7, targets:['John Smith']},
@@ -111,13 +113,14 @@ def dict_to_nodes(_dict):
         A dictionary of "nodes" and "links" as specified above.
     '''
     sources = _dict.keys()
-    #unfold dict into list of tuples representing connections: (source, target, value)
+    # unfold dict into list of tuples representing connections: (source, target, value)
     datalist = []
     for source in sources:
         for target in _dict[source]['linkshere_within_category']:
             datalist.append((source, target, _dict[source]['total_views']))
 
     data = dict()
+    # rearrange the data into the new format
     names_with_indexes = {name:index for index, name in enumerate(sources)}
     data['nodes'] = [{'name': source, 'group': _dict[source]['total_views']} for source in sources]
     data['links'] = [  {'source': names_with_indexes[source],
