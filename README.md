@@ -1,4 +1,4 @@
-# Illuminatimap - SoftDes 2021 Spring MidTerm
+# Illuminati Map - SoftDes 2021 Spring MidTerm
 ## Jacob Smilg and Markus Leschly
 ## Summary
 
