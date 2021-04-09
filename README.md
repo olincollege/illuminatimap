@@ -2,11 +2,16 @@
 ## Jacob Smilg and Markus Leschly
 ## Summary
 
-This project features two main components. There is a data collection script, `get_data.py` which can be called from the command line to collect data, and a computational essay, `computational_essay.ipynb`. The essay walks through the meat of the project - analyzing how the how the Wikipedia pages with the most views in the category “American billionaires" are connected. To answer this question, we provided 3 visualizations, which can be seen in the computational essay, as well as on [the GitHub Pages site](https://olincollege.github.io/illuminatimap) for this project. The visualizations are as follows:
+This project features two main components. There is a data collection script, `get_data.py` which can be called from the command line to collect data, and a computational essay, `computational_essay.ipynb`. The essay walks through the meat of the project - analyzing how the how the Wikipedia pages with the most views in the category “American billionaires" are connected. To answer this question, we provided 3 visualizations, which can be seen in the computational essay, as well as on [the GitHub Pages site](https://olincollege.github.io/illuminatimap) for this project.
 
-* A 3D Kamada-Kawai network chart that shows the links between pages within the category
-* A scatterplot of links to a page vs. total page views over the past 60 days
-* A treemap showing each page's number of views as the size of a rectangle to emphasize large range in the number page views within the dataset.
+### Visualizations
+The visualizations are as follows:
+
+* A 3D Kamada-Kawai network chart that shows the links between pages within the category (uses [igraph](https://igraph.org/python/) to generate the layout, and [plotly](https://plotly.com/python/) to render it)
+* A scatterplot of links to a page vs. total page views over the past 60 days (uses [plotly](https://plotly.com/python/) to render it)
+* A treemap showing each page's number of views as the size of a rectangle to emphasize large range in the number page views within the dataset. (uses [squarify](https://github.com/laserson/squarify))
+
+The ways these are generated is explained in the computational essay. The file `plots_config.py` contains the theming and other configuration options used to the plots created with plotly.
 
 ## How to use
 
@@ -68,6 +73,7 @@ optional arguments:
 ```
 
 Rate limiting is highly recommended, as getting the data for a full category of pages can take a very large number of requests.
+
 
 **DELETE THIS LATER:**
 The README provides a short summary of the project.
