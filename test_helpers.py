@@ -322,125 +322,125 @@ COMMON_LINKS_CASES = [
 ]
 
 TRIM_DICT_CASES = [
-    #Testing the a standard cutoff point
-    #Input
+    # Testing the a standard cutoff point
+    # Input
     ({'Mark Sommerville': {
         'linkshere': ['Jeff Dusek'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 1,
         'total_views': 15,
         'linkshere_within_category': ['Jeff Dusek']
-        },
+    },
         'John Geddes': {
         'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 2,
         'total_views': 20,
         'linkshere_within_category': ['Mark Sommerville', 'Jeff Dusek']
-        },
+    },
         'Jeff Dusek': {
         'linkshere': ['John Geddes', 'Mark Sommerville'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 3,
         'total_views': 11,
         'linkshere_within_category': ['Mark Sommerville, John Geddes']
-        },
     },
-    #Cut length
-    2,
+    },
+        # Cut length
+        2,
         # Output
         {'John Geddes': {
-        'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
-        'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
-        'pageid': 2,
-        'total_views': 20,
-        'linkshere_within_category': ['Mark Sommerville']
+            'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
+            'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+            'pageid': 2,
+            'total_views': 20,
+            'linkshere_within_category': ['Mark Sommerville']
         },
         'Mark Sommerville': {
-        'linkshere': ['Jeff Dusek'],
-        'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
-        'pageid': 1,
-        'total_views': 15,
-        'linkshere_within_category': []
+            'linkshere': ['Jeff Dusek'],
+            'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+            'pageid': 1,
+            'total_views': 15,
+            'linkshere_within_category': []
         },
     }),
 
-    #Testing when the cutoff length is the same as the dictionary length
-    #Input
+    # Testing when the cutoff length is the same as the dictionary length
+    # Input
     ({'Mark Sommerville': {
         'linkshere': ['Jeff Dusek'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 1,
         'total_views': 15,
         'linkshere_within_category': ['Jeff Dusek']
-        },
+    },
         'John Geddes': {
         'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 2,
         'total_views': 20,
-        'linkshere_within_category': ['Jeff Dusek','Mark Sommerville']
-        },
+        'linkshere_within_category': ['Jeff Dusek', 'Mark Sommerville']
+    },
         'Jeff Dusek': {
         'linkshere': ['John Geddes', 'Mark Sommerville'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 3,
         'total_views': 11,
-        'linkshere_within_category': ['John Geddes','Mark Sommerville']
-        },
+        'linkshere_within_category': ['John Geddes', 'Mark Sommerville']
     },
-    #Cut length
-    3,
+    },
+        # Cut length
+        3,
         # Output
         {'John Geddes': {
-        'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
-        'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
-        'pageid': 2,
-        'total_views': 20,
-        'linkshere_within_category': ['Jeff Dusek','Mark Sommerville']
+            'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
+            'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+            'pageid': 2,
+            'total_views': 20,
+            'linkshere_within_category': ['Jeff Dusek', 'Mark Sommerville']
         },
         'Mark Sommerville': {
-        'linkshere': ['Jeff Dusek'],
-        'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
-        'pageid': 1,
-        'total_views': 15,
-        'linkshere_within_category': ['Jeff Dusek']
+            'linkshere': ['Jeff Dusek'],
+            'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+            'pageid': 1,
+            'total_views': 15,
+            'linkshere_within_category': ['Jeff Dusek']
         },
         'Jeff Dusek': {
-        'linkshere': ['John Geddes', 'Mark Sommerville'],
-        'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
-        'pageid': 3,
-        'total_views': 11,
-        'linkshere_within_category': ['John Geddes','Mark Sommerville']
+            'linkshere': ['John Geddes', 'Mark Sommerville'],
+            'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
+            'pageid': 3,
+            'total_views': 11,
+            'linkshere_within_category': ['John Geddes', 'Mark Sommerville']
         },
     }),
 
-    #Testing a trim length of 0
-    #Input
+    # Testing a trim length of 0
+    # Input
     ({'Mark Sommerville': {
         'linkshere': ['Jeff Dusek'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 1,
         'total_views': 15,
         'linkshere_within_category': ['Jeff Dusek']
-        },
+    },
         'John Geddes': {
         'linkshere': ['Jeff Dusek', 'Mark Sommerville'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 2,
         'total_views': 20,
-        'linkshere_within_category': ['Jeff Dusek','Mark Sommerville']
-        },
+        'linkshere_within_category': ['Jeff Dusek', 'Mark Sommerville']
+    },
         'Jeff Dusek': {
         'linkshere': ['John Geddes', 'Mark Sommerville'],
         'pageviews': {'2021-02-06': 849, '2021-02-07': 904},
         'pageid': 3,
         'total_views': 11,
-        'linkshere_within_category': ['John Geddes','Mark Sommerville']
-        },
+        'linkshere_within_category': ['John Geddes', 'Mark Sommerville']
     },
-    #Cut length
-    0,
+    },
+        # Cut length
+        0,
         # Output
         {}),
 ]
@@ -464,7 +464,7 @@ DICT_TO_NODES_CASES = [
      # Output
      {'nodes': [{'name': 'John Smith', 'group': 10},
                 {'name': 'Jane Doe', 'group': 7},
-                {'name': 'Bob', 'group': 8},],
+                {'name': 'Bob', 'group': 8}, ],
       'links': [{'source': 0, 'target': 1, 'value': 10},
                 {'source': 0, 'target': 2, 'value': 10},
                 {'source': 1, 'target': 0, 'value': 7},
@@ -489,7 +489,7 @@ DICT_TO_NODES_CASES = [
                 {'source': 2, 'target': 1, 'value': 8}]}),
 
     # Testing mutual targets
-    #Input
+    # Input
     ({'John Smith': {'total_views': 10, 'linkshere_within_category': ['Jane Doe', 'Bob']},
       'Jane Doe': {'total_views': 7, 'linkshere_within_category': ['John Smith', 'Bob']},
       'Bob': {'total_views': 8, 'linkshere_within_category': ['Jane Doe']}
@@ -507,7 +507,8 @@ DICT_TO_NODES_CASES = [
                 ]})
 ]
 
-@pytest.mark.parametrize('raw_dict,sorted_dict_test,nested_sort_key,num_results',SORT_DICT_CASES)
+
+@pytest.mark.parametrize('raw_dict,sorted_dict_test,nested_sort_key,num_results', SORT_DICT_CASES)
 def test_sort_dict(raw_dict, sorted_dict_test, nested_sort_key, num_results):
     '''
     Check that the function sort_dict works properly.
@@ -524,7 +525,7 @@ def test_sort_dict(raw_dict, sorted_dict_test, nested_sort_key, num_results):
 
     keys = list(sorted_dict.keys())
     test_keys = list(sorted_dict_test.keys())
-    for index,key in enumerate(keys):
+    for index, key in enumerate(keys):
         # check that the keys are in order
         assert key == test_keys[index]
 

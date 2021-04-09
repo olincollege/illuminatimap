@@ -128,7 +128,7 @@ def dict_to_nodes(_dict):
     # rearrange the data into the new format
     names_with_indexes = {name: index for index, name in enumerate(sources)}
     data['nodes'] = [{'name': source, 'group': _dict[source]['total_views']}
-                        for source in sources]
+                     for source in sources]
     data['links'] = [{'source': names_with_indexes[source],
                       'target': names_with_indexes[target],
                       'value': value} for source, target, value in datalist]
