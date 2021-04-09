@@ -10,10 +10,10 @@ FORMAT_DATA_CASE = [
         {
             'pageid': 1938,
             'ns': 0,
-            'title':'Andrew Carnegie',
+            'title': 'Andrew Carnegie',
             'pageviews': {
                 '2021-02-08': 3218,
-                '2021-02-09': 9644, #etc etc
+                '2021-02-09': 9644,  # etc etc
             }
         },
         {
