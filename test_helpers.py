@@ -6,118 +6,220 @@ import pytest
 from helpers import common_links, dict_to_nodes, sort_dict, trim_dict
 
 SORT_DICT_CASES = [
-    # Tests to add:
-    # That a nested dictionary is correctly sorted
-
     # Checking that an ordered dictionary is returned as itself
-    (dict(
-        test1=1,
-        test2=2,
-        test3=3,
-        test4=4,
-        test5=5,
-        test6=6
-    ), dict(
-        test1=1,
-        test2=2,
-        test3=3,
-        test4=4,
-        test5=5,
-        test6=6
+    (
+        dict(
+            test1=6,
+            test2=5,
+            test3=4,
+            test4=3,
+            test5=2,
+            test6=1
+        ),
+        dict(
+            test1=6,
+            test2=5,
+            test3=4,
+            test4=3,
+            test5=2,
+            test6=1
+        ),
+        None,
+        None
     ),
-    None,
-    None
+
+    # That a nested ordered dictionary is returned as itself
+    (
+        {
+            'outerdict1': {'innerprop': 6},
+            'outerdict2': {'innerprop': 5},
+            'outerdict3': {'innerprop': 4},
+            'outerdict4': {'innerprop': 3},
+            'outerdict5': {'innerprop': 2},
+            'outerdict6': {'innerprop': 1},
+        },
+        {
+            'outerdict1': {'innerprop': 6},
+            'outerdict2': {'innerprop': 5},
+            'outerdict3': {'innerprop': 4},
+            'outerdict4': {'innerprop': 3},
+            'outerdict5': {'innerprop': 2},
+            'outerdict6': {'innerprop': 1},
+        },
+        'innerprop',
+        None
     ),
+
     # Checking that a nonordered unique dictionary is sorted correctly
-    (dict(
-        test1=6,
-        test2=5,
-        test3=4,
-        test4=3,
-        test5=2,
-        test6=1
-    ), dict(
-        test6=1,
-        test5=2,
-        test4=3,
-        test3=4,
-        test2=5,
-        test1=6
+    (
+        dict(
+            test1=1,
+            test2=2,
+            test3=3,
+            test4=4,
+            test5=5,
+            test6=6
+        ),
+        dict(
+            test6=6,
+            test5=5,
+            test4=4,
+            test3=3,
+            test2=2,
+            test1=1
+        ),
+        None,
+        None
     ),
-    None,
-    None
+
+    # Checking that a nonordered unique nested dictionary is sorted correctly
+    (
+        {
+            'outerdict1': {'innerprop': 1},
+            'outerdict2': {'innerprop': 2},
+            'outerdict3': {'innerprop': 3},
+            'outerdict4': {'innerprop': 4},
+            'outerdict5': {'innerprop': 5},
+            'outerdict6': {'innerprop': 6},
+        },
+        {
+            'outerdict6': {'innerprop': 6},
+            'outerdict5': {'innerprop': 5},
+            'outerdict4': {'innerprop': 4},
+            'outerdict3': {'innerprop': 3},
+            'outerdict2': {'innerprop': 2},
+            'outerdict1': {'innerprop': 1},
+        },
+        'innerprop',
+        None
     ),
-    # Checking that if numbers are the same, the returned order is the same as
-    # the input order
-    (dict(
-        test1=1,
-        test2=1,
-        test3=1,
-        test4=1,
-        test5=1,
-        test6=1
-    ), dict(
-        test1=1,
-        test2=1,
-        test3=1,
-        test4=1,
-        test5=1,
-        test6=1
+
+    # Checking that if numbers are the same, the returned order is the same as the input order
+    (
+        dict(
+            test1=1,
+            test2=1,
+            test3=1,
+            test4=1,
+            test5=1,
+            test6=1
+        ),
+        dict(
+            test1=1,
+            test2=1,
+            test3=1,
+            test4=1,
+            test5=1,
+            test6=1
+        ),
+        None,
+        None
     ),
-    None,
-    None
+
+    # Checking that if numbers are the same, the returned order is the same as the input order for
+    # a nested dictionary
+    (
+        {
+            'outerdict1': {'innerprop': 1},
+            'outerdict2': {'innerprop': 1},
+            'outerdict3': {'innerprop': 1},
+            'outerdict4': {'innerprop': 1},
+            'outerdict5': {'innerprop': 1},
+            'outerdict6': {'innerprop': 1},
+        },
+        {
+            'outerdict1': {'innerprop': 1},
+            'outerdict2': {'innerprop': 1},
+            'outerdict3': {'innerprop': 1},
+            'outerdict4': {'innerprop': 1},
+            'outerdict5': {'innerprop': 1},
+            'outerdict6': {'innerprop': 1},
+        },
+        'innerprop',
+        None
     ),
+
     # Checking that an empty dict returns an empty dict
-    (dict(), dict(), None, None),
+    (
+        dict(),
+        dict(),
+        None,
+        None
+    ),
 
     # Checking that the number of results is trimmed correctly
-    (dict(
-        test1=6,
-        test2=5,
-        test3=4,
-        test4=3,
-        test5=2,
-        test6=1
-    ), dict(
-        test1=6,
-        test2=5,
-        test3=4,
+    (
+        dict(
+            test1=6,
+            test2=5,
+            test3=4,
+            test4=3,
+            test5=2,
+            test6=1
+        ),
+        dict(
+            test1=6,
+            test2=5,
+            test3=4,
+        ),
+        None,
+        3
     ),
-    None,
-    3
+
+    # Checking that the number of results is trimmed correctly for nested dictionaries
+    (
+        {
+            'outerdict1': {'innerprop': 6},
+            'outerdict2': {'innerprop': 5},
+            'outerdict3': {'innerprop': 4},
+            'outerdict4': {'innerprop': 3},
+            'outerdict5': {'innerprop': 2},
+            'outerdict6': {'innerprop': 1},
+        },
+        {
+            'outerdict1': {'innerprop': 6},
+            'outerdict2': {'innerprop': 5},
+            'outerdict3': {'innerprop': 4},
+        },
+        'innerprop',
+        3
     ),
 
     # Checking that 0 results can be returned
-    (dict(
-        test1=6,
-        test2=5,
-        test3=4,
-        test4=3,
-        test5=2,
-        test6=1
-    ), dict(),
-    None,
-    0
+    (
+        dict(
+            test1=6,
+            test2=5,
+            test3=4,
+            test4=3,
+            test5=2,
+            test6=1
+        ),
+        dict(),
+        None,
+        0
     ),
 
     # Checking the full list length can be returned
-    (dict(
-        test1=6,
-        test2=5,
-        test3=4,
-        test4=3,
-        test5=2,
-        test6=1
-    ), dict(
-        test1=6,
-        test2=5,
-        test3=4,
-        test4=3,
-        test5=2,
-        test6=1
-    ),
-    None,
-    6
+    (
+        dict(
+            test1=6,
+            test2=5,
+            test3=4,
+            test4=3,
+            test5=2,
+            test6=1
+        ),
+        dict(
+            test1=6,
+            test2=5,
+            test3=4,
+            test4=3,
+            test5=2,
+            test6=1
+        ),
+        None,
+        6
     ),
 ]
 
@@ -262,7 +364,7 @@ TRIM_DICT_CASES = [
         'linkshere_within_category': []
         },
     }),
-    
+
     #Testing when the cutoff length is the same as the dictionary length
     #Input
     ({'Mark Sommerville': {
@@ -405,16 +507,26 @@ DICT_TO_NODES_CASES = [
                 ]})
 ]
 
-@pytest.mark.parametrize('raw_dict,formatted_dict,nested_sort_key,num_results', SORT_DICT_CASES)
-def test_sort_dict(raw_dict, formatted_dict,nested_sort_key,num_results):
+@pytest.mark.parametrize('raw_dict,sorted_dict_test,nested_sort_key,num_results',SORT_DICT_CASES)
+def test_sort_dict(raw_dict, sorted_dict_test, nested_sort_key, num_results):
     '''
     Check that the function sort_dict works properly.
 
     Args:
-        raw_dict:
-        formatted_dict:
+        raw_dict: A dictionary used as the input for the sort function.
+        sorted_dict_test: The correct output of the sort function.
+        nested_sort_key: See sort_dict docstring in helpers.py.
+        num_results: See sort_dict docstring in helpers.py.
     '''
-    assert sort_dict(raw_dict,nested_sort_key,num_results) == formatted_dict
+    sorted_dict = sort_dict(raw_dict, nested_sort_key, num_results)
+    # check that the dictionary contents are correct
+    assert sorted_dict == sorted_dict_test
+
+    keys = list(sorted_dict.keys())
+    test_keys = list(sorted_dict_test.keys())
+    for index,key in enumerate(keys):
+        # check that the keys are in order
+        assert key == test_keys[index]
 
 
 @pytest.mark.parametrize('raw_dict,formatted_dict', COMMON_LINKS_CASES)
@@ -423,8 +535,8 @@ def test_common_links(raw_dict, formatted_dict):
     Check that the function common_links works properly.
 
     Args:
-        raw_dict:
-        formatted_dict:
+        raw_dict: A dictionary used as the input for the function.
+        formatted_dict: The correct output of the function.
     '''
     assert common_links(raw_dict) == formatted_dict
 
@@ -435,8 +547,9 @@ def test_trim_dict(raw_dict, length, formatted_dict):
     Check that the function trim_dict works properly.
 
     Args:
-        raw_dict:
-        formatted_dict:
+        raw_dict: A dictionary used as the input for the function.
+        formatted_dict: The correct output of the function.
+        length: See trim_dict docstring in helpers.py.
     '''
     assert trim_dict(raw_dict, length) == formatted_dict
 
@@ -447,7 +560,7 @@ def test_dict_to_nodes(raw_dict, formatted_dict):
     Check that the function dict_to_nodes works properly.
 
     Args:
-        raw_dict:
-        formatted_dict:
+        raw_dict: A dictionary used as the input for the function.
+        formatted_dict: The correct output of the function.
     '''
     assert dict_to_nodes(raw_dict) == formatted_dict
