@@ -1,0 +1,14 @@
+title: "Computational Essay"
+author: "Jacob Smilg and Markus Leschly"
+copyright: "2021"
+logo: "img/illuminati map logo 4pt.png"
+sphinx:
+  config:
+    html_js_files:
+    - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
+
+repository:
+  url: https://github.com/olincollege/illuminatimap
+html:
+  use_repository_button: true
+  favicon: "img/illuminati map logo 4pt.png"
