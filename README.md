@@ -73,11 +73,3 @@ optional arguments:
 ```
 
 Rate limiting is highly recommended, as getting the data for a full category of pages can take a very large number of requests.
-
-
-**DELETE THIS LATER:**
-The README provides a short summary of the project.
-Where applicable, the README provides instructions for obtaining the necessary packages or libraries needed to run the code.
-Where applicable, the README mentions any changes necessary to the code required to successfully run it.
-The README provides instructions for obtaining similar or identical data to that used in the project.
-The README provides instructions for how to generate plots similar or identical to those shown in the project computational essay.
