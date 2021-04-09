@@ -7,8 +7,8 @@ This project features two main components. There is a data collection script, `g
 ### Visualizations
 The visualizations are as follows:
 
-* A 3D Kamada-Kawai network chart that shows the links between pages within the category (uses [igraph](https://igraph.org/python/) to generate the layout, and [plotly](https://plotly.com/python/) to render it)
-* A scatterplot of links to a page vs. total page views over the past 60 days (uses [plotly](https://plotly.com/python/) to render it)
+* A 3D Kamada-Kawai network chart that shows the links between pages within the category. (uses [igraph](https://igraph.org/python/) to generate the layout, and [plotly](https://plotly.com/python/) to render it)
+* A scatterplot of links to a page vs. total page views over the past 60 days. (uses [plotly](https://plotly.com/python/) to render it)
 * A treemap showing each page's number of views as the size of a rectangle to emphasize large range in the number page views within the dataset. (uses [squarify](https://github.com/laserson/squarify))
 
 The ways these are generated is explained in the computational essay. The file `plots_config.py` contains the theming and other configuration options used to the plots created with plotly.
