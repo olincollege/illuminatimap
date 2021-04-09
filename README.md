@@ -1,6 +1,5 @@
 # Illuminatimap - SoftDes 2021 Spring MidTerm
 ## Jacob Smilg and Markus Leschly
----
 ## Summary
 
 This project features two main components. There is a data collection script, `get_data.py` which can be called from the command line to collect data, and a computational essay, `computational_essay.ipynb`. The essay walks through the meat of the project - analyzing how the how the Wikipedia pages with the most views in the category “American billionaires" are connected. To answer this question, we provided 3 visualizations, which can be seen in the computational essay, as well as on [the GitHub Pages site](olincollege.github.io/illuminatimap) for this project. The visualizations are as follows:
