@@ -13,7 +13,7 @@ network_plot_config = dict(
         marker=dict(
             symbol='circle',
             size=6,
-            #  colorscale='Viridis',
+            # colorscale='Viridis',
             autocolorscale=True,
             line=dict(color='rgb(50,50,50)', width=0.5)
         ),
@@ -52,10 +52,9 @@ scatter_plot_config = dict(
     mode='markers',
     marker_color='rgb(204,40,81)',
     marker_size=4,
-    hovertemplate =
-        '<b>%{text}</b>'+
-        '<br><b>Links</b>: %{x}'+
-        '<br><b>Views</b>: %{y}<br><extra></extra>'
+    hovertemplate='<b>%{text}</b>' +
+    '<br><b>Links</b>: %{x}' +
+    '<br><b>Views</b>: %{y}<br><extra></extra>'
 )
 
 scatter_axis_config = dict(
