@@ -18,6 +18,8 @@ If you want to use the data provided, simply run the Jupyter notebook, and it wi
 
 ### get_data.py
 
+If you want to collect data for a different category of pages, use `get_data.py`. It hasn't been tested on any categories other than American Billionaires, since that is outside of the scope of our project, so there's no guarantee that it will work. It will not retrieve data on pages in subcategories, but could probably be easily modified to do so.
+
 `get_data.py` contains the code for acquiring data from Wikipedia. It uses the [mediawiki module, created by barrust](https://github.com/barrust/mediawiki), which wraps the MediaWiki API. The data is collected using a [generator](https://www.mediawiki.org/wiki/API:Query#Example_6:_Generators), which allows getting different properties (pageviews, links) from a set of several pages in a list or category (American billionaires). After downloading the data, it is formatted into a dictionary with the following structure:
 ```
 {
@@ -42,11 +44,12 @@ If you want to use the data provided, simply run the Jupyter notebook, and it wi
 }
 ```
 
+This dictionary is then stored in a .pkl file, which can be retrieved with `data = pickle.load(open('data/filename.pkl','rb')`. The name of the file is changed depending on user input; see section [get_data.py](#get_datapy) for more info.
+
+
 To use the script, you can run it from the command line.
 
-`python get_data.py -h`
-
-will display the instructions for it, which are as follows:
+`python get_data.py -h` will display the instructions for it, which are as follows:
 
 ```
 usage: get_data.py [-h] [-c CATEGORY] [-r RATE_LIMIT] [-w RATE_LIMIT_WAIT] filename
@@ -64,6 +67,7 @@ optional arguments:
                         The amount of time to wait between requests in seconds (default: 1.0)
 ```
 
+Rate limiting is highly recommended, as getting the data for a full category of pages can take a very large number of requests.
 
 **DELETE THIS LATER:**
 The README provides a short summary of the project.
