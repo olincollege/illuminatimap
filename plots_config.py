@@ -24,8 +24,8 @@ network_plot_config = dict(
 network_layout_config = dict(
     title="Links between 150 most viewed American billionaires' Wikipedia pages",
     title_font_color='rgb(255,255,255)',
-    width=1000,
-    height=800,
+    # width=1000,
+    # height=800,
     showlegend=False,
     paper_bgcolor='rgb(22,16,25)',
     margin=dict(t=50),
